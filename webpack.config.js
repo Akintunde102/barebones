@@ -12,7 +12,7 @@ const devMode = process.env.npm_lifecycle_event !== 'build';
 const CSSModuleLoader = {
     loader: 'css-loader',
     options: {
-        modules: true,
+        modules: false,
         localIdentName: '[local]_[hash:base64:5]',
         sourceMap: true,
         url: false
@@ -48,7 +48,7 @@ module.exports = env => ( {
                 }
             },
             {
-                test: /\.(png|svg|jpg|gif)$/i,
+                test: /\.(png|svg|jpg|gif|ico|jpeg)$/i,
                 use: [
                     {
                         loader: 'url-loader',
@@ -59,16 +59,37 @@ module.exports = env => ( {
                 ]
             },
             {
-                test: /\.(sa|sc|c)ss$/,
-                use: [ devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: 'url-loader?limit=10000&mimetype=application/font-woff'
+            },
+            {
+                test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: 'file-loader'
+            },
+            {
+                test: /\.otf(\?.*)?$/,
+                use: 'file-loader?name=/fonts/[name].  [ext]&mimetype=application/font-otf'
+            },
+            {
+                test: /\.(sa|le|sc|c)ss$/,
+                use: [
+                    devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
                     CSSModuleLoader,
                     postCSSLoader,
+                    {
+                        loader: 'less-loader',
+                        options: {
+                            includePaths: [ resolve( '../node_modules' ) ]
+                        }
+                    }
+                    /**
                     {
                         loader: 'sass-loader',
                         options: {
                             sourceMap: true
                         }
                     }
+                    */
                 ]
             }
         ]
@@ -92,6 +113,9 @@ module.exports = env => ( {
     },
     devtool: 'sourcemap',
     resolve: {
-        extensions: [ '.ts', '.tsx', '.js', '.jsx', '.scss', '.css' ]
+        extensions: [ '.ts', '.tsx', '.js', '.jsx', '.scss', '.css', '.less' ],
+        alias: {
+            '../../theme.config$': join( __dirname, 'my-semantic-theme/theme.config' )
+        }
     }
 } );

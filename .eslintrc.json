@@ -25,6 +25,7 @@
        "react/jsx-filename-extension": [1, {"extensions": [".js", ".jsx"] }],
        "react/prop-types": [0, { "ignore": 0 }],
        "react/jsx-indent": 0,
+       "react/jsx-indent-props": [0],
        "space-in-parens": [ 2, "always" ],
        "template-curly-spacing": [ 2, "always" ],
        "array-bracket-spacing": [ 2, "always" ],
