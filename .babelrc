@@ -3,5 +3,11 @@
     "env",
     "es2015",
     "stage-1",
-    "react"]
+    "react"],
+    "plugins": [
+      ["transform-runtime", {
+        "polyfill": false,
+        "regenerator": true
+      }]
+    ]
 }

@@ -76,20 +76,19 @@ module.exports = env => ( {
                     devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
                     CSSModuleLoader,
                     postCSSLoader,
+                    /**
                     {
                         loader: 'less-loader',
                         options: {
                             includePaths: [ resolve( '../node_modules' ) ]
                         }
-                    }
-                    /**
+                    }**/
                     {
                         loader: 'sass-loader',
                         options: {
                             sourceMap: true
                         }
                     }
-                    */
                 ]
             }
         ]
@@ -104,7 +103,7 @@ module.exports = env => ( {
             inject: true,
             template: './src/index.html',
             filename: 'index.html',
-            favicon: './src/assets/images/y18.gif'
+            favicon: './src/assets/images/core-img/favicon.ico'
         } ),
         new WebpackMd5Hash()
     ],
@@ -113,9 +112,9 @@ module.exports = env => ( {
     },
     devtool: 'sourcemap',
     resolve: {
-        extensions: [ '.ts', '.tsx', '.js', '.jsx', '.scss', '.css', '.less' ],
+        extensions: [ '.ts', '.tsx', '.js', '.jsx', '.scss', '.css', '.less', 'sass' ],
         alias: {
-            '../../theme.config$': join( __dirname, 'my-semantic-theme/theme.config' )
+            // '../../theme.config$': join( __dirname, 'my-semantic-theme/theme.config' )
         }
     }
 } );

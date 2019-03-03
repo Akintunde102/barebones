@@ -20,6 +20,7 @@
        "max-len": 0,
        "no-tabs": 0,
        "no-console": 0,
+       "no-bitwise": 0,
        "jsx-closing-tag-location": 0,
        "react/jsx-one-expression-per-line": [1, { "allow": "single-child" }],
        "react/jsx-filename-extension": [1, {"extensions": [".js", ".jsx"] }],
@@ -31,6 +32,7 @@
        "array-bracket-spacing": [ 2, "always" ],
        "object-curly-spacing": [ 2, "always" ],
        "computed-property-spacing": [ 2, "always" ],
-       "no-multiple-empty-lines": [ 2, { "max": 1, "maxEOF": 0, "maxBOF": 0 } ]
+       "no-multiple-empty-lines": [ 2, { "max": 1, "maxEOF": 0, "maxBOF": 0 } ],
+       "jsx-a11y/anchor-is-valid": 0 
     }
 }

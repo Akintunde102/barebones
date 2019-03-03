@@ -1,22 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import ResponsiveContainer from './components/ResponsiveContainer';
-import '../my-semantic-theme/semantic.less';
+import React, { Component } from 'react';
+import reactDom from 'react-dom';
+import preloader from './components/preloader';
+import header from './components/header';
+import dropoff from './components/dropoff'
+import './assets/styling/style.css';
+import './assets/styling/responsive.css';
 
-class Index extends React.Component {
-    constructor ( props ) {
-        super( props );
 
-        this.state = {};
-
-        this.loadtime = 1000 * 60;
-
-        this.counter = 0;
-    }
-
-    render () {
-        return <ResponsiveContainer />;
-    }
+export default class index extends Component {
+  render() {
+    return (
+      <div>
+        <dropoff />
+        <preloader />
+        <header />
+      </div>
+    )
+  }
 }
 
-ReactDOM.render( <Index />, document.getElementById( 'content' ) );
+reactDom.render( <index />, document.getElementById( 'content' ) );
+
