@@ -1,8 +1,8 @@
 const steem = require( 'steem' );
 const fs = require( 'fs' );
-const { log } = require( '../helpers/init' );
+const { log } = require( '../../helpers/init' );
 
-const owner = 'ned';
+const owner = 'bittrex';
 
 const keytype = 'posting';
 
@@ -10,11 +10,15 @@ const password = '5JfbEdkPwApD8BymywR6tYL4ZB5zgFeY6JBPoS4rmCWuG9ZTnnF';
 
 const allowed = 'STEEM';
 
+const savePath = 'data.txt';
+
+const last = 30;
+
 const wif = steem.auth.toWif( owner, password, keytype );
 
-function getlast100 () {
+function getlast () {
     return new Promise( ( resolve, reject ) => {
-        steem.api.getAccountHistory( owner, -1, 100, ( err, result ) => {
+        steem.api.getAccountHistory( owner, -1, last, ( err, result ) => {
             if ( err ) {
                 reject( err );
             } else {
@@ -73,21 +77,51 @@ function reSort ( result ) {
     return finalResult;
 }
 
-function save ( arr ) {
+async function save ( arr ) {
     const arrayString = JSON.stringify( arr );
-    fs.writeFile( 'data.txt', arrayString, ( err ) => {
+    await fs.writeFile( 'data.txt', arrayString, 'utf8', ( err ) => {
         if ( err ) {
             log.red( err );
-            throw new Error( `saveError:${ err }` );
+            Promise.reject( new Error( `saveError:${ err }` ) );
         }
     } );
     const time = new Date().toLocaleString();
-    log.blue( `Data Saved On:${ time }` );
-    return true;
+    log.blue( `New Data Saved On:${ time }` );
+    return Promise.resolve( true );
 }
 
-function getNew ( newData ) {
-    const oldData = fs.readFileSync( 'data.txt' );
+function fileExist ( path ) {
+    let status;
+    try {
+        if ( fs.existsSync( path ) ) {
+            status = true;
+        } else {
+            status = false;
+        }
+    } catch ( err ) {
+        throw err;
+    }
+
+    return status;
+}
+
+function wait ( ms ) {
+    return new Promise( ( resolve, reject ) => setTimeout( resolve, ms ) );
+}
+
+async function getNew ( newData ) {
+    /** Check If File DB Exists */
+    if ( !fileExist( savePath ) ) {
+        // If DB Does not Exist , create DB with initial Data first
+        await save( newData );
+        /** There is a write delay with the file here
+         *  so, we've got to wait a bit for the file to write to disk
+         * Although, a real nosql db would have been a great choice, **/
+        await wait( 1000 );
+    }
+
+    const oldData = fs.readFileSync( savePath, 'utf8' );
+    log.ord( `Data:${ oldData }` );
     const oldIds = getIds( JSON.parse( oldData ) );
     const newIds = getIds( newData );
     const diffIds = oldIds.filter( x => !newIds.includes( x ) );
@@ -98,9 +132,11 @@ function getNew ( newData ) {
     let newAlerts;
     if ( diffIds.length !== 0 ) {
         newAlerts = [];
-        for ( let n = 1; n < newData.length; n += 1 ) {
+        for ( let n = 0; n < newData.length; n += 1 ) {
+            log.ord( newData[ n ].id );
             if ( diffIds.includes( newData[ n ].id ) ) {
                 newAlerts.push( newData[ n ] );
+                log.blue( newData[ n ] );
             }
         }
     } else { newAlerts = false; }
@@ -116,13 +152,24 @@ function getNew ( newData ) {
     return newAlerts;
 }
 
-getlast100()
+getlast()
     .then(
         ( result ) => {
+            // Sort The Results to dump unwanted and format wanted
             const newResults = reSort( result );
-            getNew( newResults );
+            return newResults;
         }
     )
-    .then(
-
-    );
+    .then( async ( newResults ) => {
+        // Get New Alerts
+        const newAlerts = await getNew( newResults );
+        return [ newResults, newAlerts ];
+    } )
+    .then( async ( alertAndResult ) => {
+        const [ newResults, newAlerts ] = alertAndResult;
+        // Store the New Data For Later Comparison
+        await save( newResults );
+        // Display the newAlerts if it exists
+        if ( newAlerts !== false ) { log.ord( newAlerts ); }
+    } );
+// .catch( err => log.red( err ) );

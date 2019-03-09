@@ -4,19 +4,18 @@ const chalk = require('chalk').default;
 
 const show = function(offOn = 'on'){
   let clg;
-
+  
   this.offOn = offOn;
   
   if (this.offOn === 'off'){ clg = input => input;  }
   else {clg = input => console.log(input); }
-    
-    this.ord = clg;
+
     this.blue =  cont=>clg(chalk.blue(cont));
+    this.ord =  clg;
     this.white = cont=>clg(chalk.white(cont));
     this.green = cont=>clg(chalk.greenBright(cont));
     this.red = cont=>clg(chalk.red(cont));
   };
-
 const log = new show();
 module.exports = { log }
 
