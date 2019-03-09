@@ -91,16 +91,19 @@ function getNew ( newData ) {
     const oldIds = getIds( JSON.parse( oldData ) );
     const newIds = getIds( newData );
     const diffIds = oldIds.filter( x => !newIds.includes( x ) );
-    log.white( "OldTransferIds: " +oldIds+"\n" );
-    log.red( "NewTransferIds: "+newIds+"\n" );
+    log.white( `OldTransferIds: ${ oldIds }\n` );
+    log.white( `NewTransferIds: ${ newIds }\n` );
+    diffIds.length !== 0 ? log.green( `DiffTransferIds: ${ diffIds }\n` ) : log.red( `No New Transfers` );
 
-    if ( diffIds.length === 0 ){ 
-        return false} else
-    {     const newAlerts = [];
-		for (let n = 1; n < diffIds.length; n += 1){
-			
-		}
-    }
+    let newAlerts;
+    if ( diffIds.length !== 0 ) {
+        newAlerts = [];
+        for ( let n = 1; n < newData.length; n += 1 ) {
+            if ( diffIds.includes( newData[ n ].id ) ) {
+                newAlerts.push( newData[ n ] );
+            }
+        }
+    } else { newAlerts = false; }
 
     function getIds ( data ) {
         const idArr = [];
@@ -109,6 +112,8 @@ function getNew ( newData ) {
         }
         return idArr;
     }
+
+    return newAlerts;
 }
 
 getlast100()
