@@ -38,8 +38,11 @@ const dashboardRoutes = [
         component: Upgrade
     },
     {
- redirect: true, path: '/', to: '/homepage', name: 'Homepage' 
-}
+        redirect: true,
+        path: '/',
+        to: '/homepage',
+        name: 'Homepage'
+    }
 ];
 
 export default dashboardRoutes;

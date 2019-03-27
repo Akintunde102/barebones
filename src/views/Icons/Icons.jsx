@@ -1,59 +1,71 @@
-import React, { Component } from "react";
-import { Grid, Row, Col } from "react-bootstrap";
+import React, { Component } from 'react';
+import {
+    Grid,
+    Row,
+    Col,
+    FormGroup,
+    ControlLabel,
+    FormControl
+} from 'react-bootstrap';
 
-import Card from "../../components/Card/Card";
-import { iconsArray } from "../../variables/Variables.jsx";
+import { Card } from '../../components/Card/Card';
+import { FormInputs } from '../../components/FormInputs/FormInputs';
+import { UserCard } from '../../components/UserCard/UserCard';
+import Button from '../../components/CustomButton/CustomButton';
+import avatar from '../../assets/img/faces/face-3.jpg';
 
-class Icons extends Component {
-  render() {
-    return (
-      <div className="content">
-        <Grid fluid>
-          <Row>
-            <Col md={12}>
-              <Card
-                title="202 Awesome Stroke Icons"
-                ctAllIcons
-                category={
-                  <span>
-                    Handcrafted by our friends from{" "}
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href="http://themes-pixeden.com/font-demos/7-stroke/index.html"
-                    >
-                      Pixeden
-                    </a>
-                  </span>
-                }
-                content={
-                  <Row>
-                    {iconsArray.map((prop, key) => {
-                      return (
-                        <Col
-                          lg={2}
-                          md={3}
-                          sm={4}
-                          xs={6}
-                          className="font-icon-list"
-                          key={key}
-                        >
-                          <div className="font-icon-detail">
-                            <i className={prop} />
-                            <input type="text" defaultValue={prop} />
-                          </div>
+class UserProfile extends Component {
+    render() {
+        return (
+            <div className="content">
+                <Grid fluid>
+                    <Row>
+                        <Col md={4}>
+                            <Card
+                                title="Subscribe With Your ATM CARD"
+                                content={(
+                                    <form>
+                                        <FormInputs
+                                            ncols={[ 'col-md-8']}
+                                            proprieties={[
+                                                {
+                                                    label: 'Card Number',
+                                                    type: 'email',
+                                                    bsClass: 'form-control',
+                                                    placeholder: 'Valid Card Number'
+                                                }
+                                            ]}
+                                        />
+                                        <FormInputs
+                                            ncols={[ 'col-md-4', 'col-md-4' ]}
+                                            proprieties={[
+                                                {
+                                                    label: 'Expiration Date',
+                                                    type: 'text',
+                                                    bsClass: 'form-control',
+                                                    placeholder: 'MM/YY'
+                                                },
+                                                {
+                                                    label: 'CVC',
+                                                    type: 'text',
+                                                    bsClass: 'form-control',
+                                                    placeholder: 'CVC',
+                                                }
+                                            ]}
+                                        />
+                                        <Button bsStyle="info" fill type="submit">
+                      Start Subscription
+                                        </Button>
+                                        <div className="clearfix" />
+                                    </form>
+                                )}
+                            />
                         </Col>
-                      );
-                    })}
-                  </Row>
-                }
-              />
-            </Col>
-          </Row>
-        </Grid>
-      </div>
-    );
-  }
+                    </Row>
+                </Grid>
+            </div>
+        );
+    }
 }
 
-export default Icons;
+export default UserProfile;
