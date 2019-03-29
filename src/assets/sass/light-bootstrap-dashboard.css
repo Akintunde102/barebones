@@ -200,7 +200,10 @@ input:focus {
   color: #fff;
   font-weight: 200;
   background-size: cover;
-  background-position: center center; }
+  background-position: center center; 
+  background: url('../img/canvas-content-bg.jpg');
+  box-shadow: 0px 8px 20px grey;
+}
   .sidebar .sidebar-wrapper {
     position: relative;
     height: calc(100vh - 75px);
@@ -217,7 +220,8 @@ input:focus {
     top: 0;
     left: 0;
     background-size: cover;
-    background-position: center center; }
+    background-position: center center; 
+  }
   .sidebar .logo {
     padding: 10px 30px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -3002,3 +3006,8 @@ body > .navbar-collapse[data-color="purple"]:after {
     overflow-y: hidden;
     -ms-overflow-style: -ms-autohiding-scrollbar;
     -webkit-overflow-scrolling: touch; } }
+
+
+    .content {
+
+    }
