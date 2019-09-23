@@ -11,5 +11,5 @@ ReactDOM.render(
     <HashRouter>
         <Route to="/" component={index.component} key={0} />
     </HashRouter>,
-    document.getElementById( 'root' )
+    document.getElementById( 'bola' )
 );
